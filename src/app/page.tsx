@@ -14,6 +14,6 @@ async function getUser(id: number) {
 export default async function Home() {
   const user = await getUser(1);
   return (
-    <h1 className="text-xl text-purple-800">Hello T3itty, {user && user.name}</h1>
+    <h1 className="text-xl text-purple-800">Hello T3itty, {user ? user.name : "None"}</h1>
   )
 }
