@@ -3,7 +3,7 @@ import type { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 
-export const AuthOptions: NextAuthOptions = {
+const AuthOptions: NextAuthOptions = {
 
   providers: [
     GoogleProvider({
