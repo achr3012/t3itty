@@ -18,7 +18,7 @@ export default function RootLayout({
         <Providers>
           <div className="flex-col md:flex-row container mx-auto flex items-start sm:pr-4">
             <Navigation />
-            <div className="md:min-h-screen md:flex-grow md:border-x">
+            <div className="w-full md:min-h-screen md:flex-grow md:border-x">
               {children}
             </div>
           </div>
