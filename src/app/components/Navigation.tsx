@@ -6,14 +6,14 @@ import { FaHome, FaUserCircle, FaGoogle, FaSignOutAlt } from 'react-icons/fa'
 import { signIn, signOut, useSession } from "next-auth/react"
 
 const Navigation = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   return (
     <nav className="w-full md:w-96 sticky md:top-0 px-2 py-4">
       <ul className="flex flex-row md:flex-col items-center justify-center md:items-start gap-2">
         <li>
           <Link href="/"><IconHoverEffect><FaHome /><span className="hidden md:block"> Home</span></IconHoverEffect></Link>
         </li>
-        {session?.user
+        {status !== "loading" && session?.user
           ? (
             <>
               <li><Link href="/"><IconHoverEffect><FaUserCircle /><span className="hidden md:block"> Profile</span></IconHoverEffect></Link></li>
