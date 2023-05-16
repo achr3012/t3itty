@@ -1,8 +1,10 @@
 const IconHoverEffect = ({
   children,
+  classes,
   red = false,
 }: {
   children: React.ReactNode;
+  classes?: string,
   red?: boolean;
 }) => {
   const colorClasses = red
@@ -11,7 +13,7 @@ const IconHoverEffect = ({
 
   return (
     <div
-      className={`p-2 transition-colors duration-200 ${colorClasses}`}
+      className={`p-2 transition-colors duration-200 ${colorClasses} ${classes}`}
     >
       {children}
     </div>
