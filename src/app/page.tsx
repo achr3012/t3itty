@@ -1,14 +1,17 @@
 import { AuthOptions } from "@/lib/AuthOptions"
 import { getServerSession } from "next-auth"
-
-
+import AddTweet from "./components/AddTweet";
+import { User } from "@prisma/client";
+import TweetsFeed from "./components/TweetsFeed";
 
 export default async function Home() {
   const session = await getServerSession(AuthOptions);
+  const user = session?.user as User
   return (
     <>
-      <h1 className="text-2xl text-center font-bold pt-4 text-purple-800">Hello T3itty</h1>
-      {session?.user && <p>Logged is as:: <span className="bold">{session.user.name}</span></p>}
+      <AddTweet user={user} />
+      {/* @ts-expect-error Async Server Component */}
+      <TweetsFeed />
     </>
   )
 }
