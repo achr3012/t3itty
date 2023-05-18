@@ -1,3 +1,4 @@
+import { Tweet } from "@prisma/client";
 import { prisma } from "./prisma";
 
 export default async function fetchTweets() {
@@ -11,11 +12,22 @@ export default async function fetchTweets() {
         }
       },
       id: true,
+      userId: true,
       content: true,
-      createdAt: true
+      createdAt: true,
+      _count: true
     },
     orderBy: {
       createdAt: 'desc'
     }
-  })
+  });
+}
+
+export async function likeExists(data: { userId: string; tweetId: string; }) {
+  const like = await prisma.like.findUnique({ where: { userId_tweetId: data }, select: { tweetId: true } })
+  if (like) {
+    return true
+  } else {
+    return false
+  }
 }

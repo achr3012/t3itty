@@ -13,7 +13,7 @@ const IconHoverEffect = ({
 
   return (
     <div
-      className={`p-2 transition-colors duration-200 ${colorClasses} ${classes}`}
+      className={`transition-colors duration-200 ${colorClasses} ${classes}`}
     >
       {children}
     </div>

@@ -30,7 +30,7 @@ const Navigation = () => {
 
         <li className="text-lg md:text-base md:w-full">
           <Link className={isItHomePage ? "font-bold" : ""} href="/">
-            <IconHoverEffect classes="flex flex-col md:flex-row md:gap-2 items-center">
+            <IconHoverEffect classes="flex p-2 flex-col md:flex-row md:gap-2 items-center">
               <FaHome />
               <span>Home</span>
             </IconHoverEffect>
@@ -39,15 +39,15 @@ const Navigation = () => {
         {status == "authenticated" && data?.user && (
           <>
             <li className="text-lg md:text-base md:w-full">
-              <Link className={isItProfilePage ? "font-bold" : ""} href={`/profile/${user.id}`} >
-                <IconHoverEffect classes={`flex flex-col md:flex-row md:gap-2 items-center`}>
+              <Link className={isItProfilePage && "font-bold"} href={`/profile/${user.id}`} >
+                <IconHoverEffect classes="flex p-2 flex-col md:flex-row md:gap-2 items-center">
                   <FaUserCircle />
                   <span>Profile</span>
                 </IconHoverEffect>
               </Link></li>
             <li className="text-lg md:text-base md:w-full">
               <button className="md:w-full" onClick={() => signOut()}>
-                <IconHoverEffect classes="flex flex-col md:flex-row md:gap-2 items-center">
+                <IconHoverEffect classes="flex p-2 flex-col md:flex-row md:gap-2 items-center">
                   <FaSignOutAlt />
                   <span>Logout</span>
                 </IconHoverEffect>
@@ -57,7 +57,7 @@ const Navigation = () => {
         {status == "unauthenticated" && (
           <li className="text-lg md:text-base md:w-full">
             <button className="md:w-full" onClick={() => signIn('google')}>
-              <IconHoverEffect classes="flex flex-col md:flex-row md:gap-2 items-center">
+              <IconHoverEffect classes="flex p-2 flex-col md:flex-row md:gap-2 items-center">
                 <FaGoogle />
                 <span>Login with Google</span>
               </IconHoverEffect>

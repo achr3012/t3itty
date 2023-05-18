@@ -11,8 +11,23 @@ export async function addTweet(formData: FormData) {
   } as Tweet
 
   if (validTweet(formData)) {
-    await prisma.tweet.create({
+    if (await prisma.tweet.create({
       data: tweet
-    })
+    })) {
+      return true;
+    }
+  }
+}
+
+export async function toggleLike(tweetId: string, userId: string) {
+  const data = { userId, tweetId }
+  const liked = await prisma.like.findUnique({ where: { userId_tweetId: data }, select: { tweetId: true } })
+
+  if (!liked) {
+    const createLike = await prisma.like.create({ data, })
+    if (createLike) return true
+  } else {
+    const deleteLike = await prisma.like.delete({ where: { userId_tweetId: data } })
+    if (deleteLike) return true
   }
 }
