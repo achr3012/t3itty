@@ -2,7 +2,7 @@
 
 import { VscHeart, VscHeartFilled } from "react-icons/vsc"
 import IconHoverEffect from "./IconHeverEffect"
-import { useState, useTransition } from 'react';
+import { useState, useEffect, useTransition } from 'react';
 import { toggleLike } from '@/lib/actions';
 
 const LikeTweet = ({ tweetId, userId, likes, liked }: { tweetId: string, userId: string | null, likes: number, liked: boolean }) => {
@@ -10,6 +10,10 @@ const LikeTweet = ({ tweetId, userId, likes, liked }: { tweetId: string, userId:
   let [isPending, startTransition] = useTransition();
   const [isLiked, setIsLiked] = useState(liked)
   const [likesCount, setLikesCount] = useState(likes)
+
+  useEffect(() => {
+    setLikesCount(likes)
+  }, [likes])
 
   const handelLike = () => {
     if (!isPending && userId) {

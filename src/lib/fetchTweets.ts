@@ -15,7 +15,7 @@ export default async function fetchTweets() {
       userId: true,
       content: true,
       createdAt: true,
-      _count: true
+      _count: { select: { likes: true } }
     },
     orderBy: {
       createdAt: 'desc'

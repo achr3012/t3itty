@@ -3,6 +3,7 @@
 import { prisma } from './prisma';
 import { Tweet } from '@prisma/client';
 import validTweet from './validTweet';
+import { revalidatePath } from 'next/cache';
 
 export async function addTweet(formData: FormData) {
   const tweet = {
@@ -30,4 +31,8 @@ export async function toggleLike(tweetId: string, userId: string) {
     const deleteLike = await prisma.like.delete({ where: { userId_tweetId: data } })
     if (deleteLike) return true
   }
+}
+
+export async function revalidatePage(path: string) {
+  revalidatePath(path)
 }

@@ -21,7 +21,7 @@ const AddTweet = ({ user }: { user: User }) => {
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  let [isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
 
   const [disabled, setDisabled] = useState(true);
 

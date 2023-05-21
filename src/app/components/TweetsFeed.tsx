@@ -4,34 +4,23 @@ import Link from "next/link"
 import LikeTweet from "./LikeTweet";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "@/lib/AuthOptions";
-import { User } from "@prisma/client";
-import { prisma } from "@/lib/prisma";
-
-const tweetDateOptions: Intl.DateTimeFormatOptions = {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: 'numeric',
-  second: 'numeric',
-  hour12: false
-}; // Options for formatting the date
+import type { User } from "@prisma/client";
+import timeAgo from "@/lib/timeAgo";
 
 const TweetsFeed = async () => {
+  const tweets = await fetchTweets()
+
+  if (!tweets) return <h1 className="text-3xl py-5">No Tweets to show :( Try to add some.</h1>
+
   const session = await getServerSession(AuthOptions);
   const user = session?.user as User
   const userId = session?.user ? user.id : null
 
-  const tweets = await fetchTweets()
-
-  if (tweets.length == 0) {
-    return <h1 className="text-3xl py-5">No Tweets to show :( Try to add some.</h1>
-  }
 
   return (
-    <div className="flex flex-col gap-5 px-2 py-8">
+    <div className="flex flex-col gap-5 px-2 py-8 sm:px-0">
       {tweets.map(async (tweet) => {
-        const date = new Intl.DateTimeFormat('en-US', tweetDateOptions).format(tweet.createdAt);
+        const date = timeAgo(tweet.createdAt)
         var liked = false
         if (userId && await likeExists({ tweetId: tweet.id, userId })) {
           liked = true
