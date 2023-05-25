@@ -26,6 +26,8 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "eslint": "8.41.0",
+    "eslint-config-next": "13.4.3",
     "prisma": "^4.14.0"
   }
 }

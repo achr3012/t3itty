@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import { useRef } from 'react'
-import { User } from "@prisma/client"
+import type { User } from "@prisma/client"
 import { addTweet } from '@/lib/actions'
 import Avatar from './Avatar'
 import { useRouter } from 'next/navigation'

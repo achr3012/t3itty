@@ -28,7 +28,7 @@ const Header = () => {
   if (pathname.includes('/profile')) page = "Profile"
 
   return (
-    <div className="sticky top-0 mb-3 border-b shadow bg-white z-10 flex items-center gap-1 p-3">
+    <div className="sticky top-0 border-b shadow bg-white z-10 flex items-center gap-1 p-3">
       {page !== "T3itty" && (
         <Link href="/">
           <IconHoverEffect classes="p-2 rounded-full text-xl">

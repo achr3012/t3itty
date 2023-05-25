@@ -1,5 +1,3 @@
-
-
 import { getServerSession } from "next-auth"
 import { AuthOptions } from "@/lib/AuthOptions"
 import { Suspense } from "react";

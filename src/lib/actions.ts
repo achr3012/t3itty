@@ -33,6 +33,28 @@ export async function toggleLike(tweetId: string, userId: string) {
   }
 }
 
+export async function follow(sessionUserId: string, profileId: string) {
+  await prisma.user.update({
+    where: {
+      id: sessionUserId
+    },
+    data: {
+      follows: { connect: { id: profileId } }
+    }
+  })
+}
+
+export async function unFollow(sessionUserId: string, profileId: string) {
+  await prisma.user.update({
+    where: {
+      id: sessionUserId
+    },
+    data: {
+      follows: { disconnect: { id: profileId } }
+    }
+  })
+}
+
 export async function revalidatePage(path: string) {
   revalidatePath(path)
 }
