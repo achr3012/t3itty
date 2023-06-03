@@ -1,33 +1,51 @@
-import { Tweet } from "@prisma/client";
+
 import { prisma } from "./prisma";
 
-export default async function fetchTweets() {
-  return await prisma.tweet.findMany({
+const select = {
+  user: {
     select: {
-      user: {
-        select: {
-          id: true,
-          name: true,
-          image: true
-        }
-      },
       id: true,
-      userId: true,
-      content: true,
-      createdAt: true,
-      _count: { select: { likes: true } }
-    },
+      name: true,
+      image: true
+    }
+  },
+  id: true,
+  userId: true,
+  content: true,
+  createdAt: true,
+  _count: { select: { likes: true } }
+}
+
+
+export async function fetchTweets() {
+  return await prisma.tweet.findMany({
+    select,
     orderBy: {
       createdAt: 'desc'
     }
   });
 }
 
-export async function likeExists(data: { userId: string; tweetId: string; }) {
-  const like = await prisma.like.findUnique({ where: { userId_tweetId: data }, select: { tweetId: true } })
-  if (like) {
-    return true
-  } else {
-    return false
-  }
+export async function fetchUserTweets(id: string) {
+  return await prisma.tweet.findMany({
+    where: {
+      userId: id
+    },
+    select,
+    orderBy: {
+      createdAt: 'desc'
+    }
+  });
+}
+
+export async function fetchUserLikedTweets(id: string) {
+  return await prisma.like.findMany({
+    where: {
+      userId: id
+    },
+    select: { Tweet: { select } },
+    orderBy: {
+      tweetId: "desc"
+    }
+  })
 }

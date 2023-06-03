@@ -58,6 +58,9 @@ export default async function Profile({ params }: { params: { id: string } }) {
           <p>{profile._count.follows} Following</p>
         </div>
       </div>
+
+
+
     </div>
   )
 }
