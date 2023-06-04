@@ -14,7 +14,7 @@ export default async function Home() {
   return (
     <>
       <AddTweet user={user} />
-      <TweetsFeed userId={userId} />
+      <TweetsFeed sessionUserId={userId} />
     </>
   )
 }

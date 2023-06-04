@@ -1,4 +1,5 @@
 
+import { fetchUser } from "./fetchUser";
 import { prisma } from "./prisma";
 
 const select = {
@@ -48,4 +49,19 @@ export async function fetchUserLikedTweets(id: string) {
       tweetId: "desc"
     }
   })
+}
+
+export async function fetchFollowingsTweets(id: string) {
+  const user = await fetchUser(id)
+  return await prisma.tweet.findMany({
+    where: {
+      user: {
+        followers: { some: { id: user?.id } }
+      }
+    },
+    select,
+    orderBy: {
+      createdAt: 'desc'
+    }
+  });
 }
