@@ -19,7 +19,7 @@ export type TweetType = {
   createdAt: Date;
 }
 
-export default function Tweet({ tweet, userId }: { tweet: TweetType, userId: string | null }) {
+export default function Tweet({ tweet, userId }: { tweet: TweetType, userId: string | undefined }) {
 
   const date = timeAgo(new Date(tweet.createdAt))
 

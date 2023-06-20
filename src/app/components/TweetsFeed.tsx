@@ -23,7 +23,7 @@ enum TAB {
   LIKED_TWEETS
 }
 
-const TweetsFeed = ({ sessionUserId, userId }: { userId?: string | null, sessionUserId: string | null }) => {
+const TweetsFeed = ({ sessionUserId, userId }: { userId?: string | null, sessionUserId?: string | undefined }) => {
   const pathname = usePathname()
   const [tweets, setTweets] = useState<TweetType[]>()
   const [tab, setTab] = useState<TAB | null>(null)
@@ -71,7 +71,7 @@ const TweetsFeed = ({ sessionUserId, userId }: { userId?: string | null, session
   return (
     <div className="flex flex-col gap-5 px-2 py-8 sm:px-0">
       <ul className="w-full bg-slate-300 flex items-center text-center">
-        {pathname == '/' && (
+        {sessionUserId && pathname == '/' && (
           <>
             <li className={`flex-grow cursor-pointer py-3 ${tab == TAB.ALL && 'font-semibold'}`} onClick={() => setTab(TAB.ALL)}>ALL</li>
             <li className={`flex-grow cursor-pointer py-3 ${tab == TAB.FOLLOWING && 'font-semibold'}`} onClick={() => setTab(TAB.FOLLOWING)}>Following</li>

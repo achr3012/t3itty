@@ -6,7 +6,7 @@ import { useState, useEffect, useTransition } from 'react';
 import { toggleLike } from '@/lib/actions';
 import fetcher from '@/lib/fetcher';
 
-const LikeTweet = ({ tweetId, userId, likes }: { tweetId: string, userId: string | null, likes: number }) => {
+const LikeTweet = ({ tweetId, userId, likes }: { tweetId: string, userId: string | undefined, likes: number }) => {
 
   let [isPending, startTransition] = useTransition();
   const [isLiked, setIsLiked] = useState(false)

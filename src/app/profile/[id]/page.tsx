@@ -8,7 +8,7 @@ import TweetsFeed from "@/app/components/TweetsFeed"
 
 export default async function Profile({ params }: { params: { id: string } }) {
   const session = await getServerSession(AuthOptions)
-  const sessionUserId = session?.user?.id as string
+  const sessionUserId = session?.user?.id
   const profile = await fetchUser(params.id)
 
   if (!profile) {
@@ -60,7 +60,7 @@ export default async function Profile({ params }: { params: { id: string } }) {
         </div>
       </div>
 
-      <TweetsFeed sessionUserId={sessionUserId} userId={profile.id} />
+      <TweetsFeed userId={profile.id} sessionUserId={sessionUserId} />
 
     </div>
   )
