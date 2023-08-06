@@ -2,7 +2,6 @@ import Avatar from "./Avatar";
 import LikeTweet from "./LikeTweet";
 import Link from "next/link";
 import timeAgo from "@/lib/timeAgo";
-import { Suspense } from "react";
 
 export type TweetType = {
   user: {
@@ -16,6 +15,7 @@ export type TweetType = {
   id: string;
   userId: string;
   content: string;
+  liked?: boolean;
   createdAt: Date;
 }
 
@@ -36,9 +36,8 @@ export default function Tweet({ tweet, userId }: { tweet: TweetType, userId: str
       <div className="flex-grow">
         <p className="p-2 leading-relaxed whitespace-pre-wrap">{tweet.content}</p>
       </div>
-      <Suspense fallback={<p>Loading likes</p>}>
-        <LikeTweet tweetId={tweet.id} userId={userId} likes={tweet._count.likes} />
-      </Suspense>
+
+      <LikeTweet tweetId={tweet.id} userId={userId} likes={tweet._count.likes} liked={tweet.liked} />
     </div>
   )
 }

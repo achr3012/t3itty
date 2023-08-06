@@ -2,52 +2,12 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "@/lib/AuthOptions";
-import { Tweet } from "@prisma/client";
+import { handelTweets, tweetSelect } from "../../route";
 
-export const tweetSelect = {
-  user: {
-    select: {
-      id: true,
-      name: true,
-      image: true
-    }
-  },
-  id: true,
-  userId: true,
-  content: true,
-  createdAt: true,
-  _count: { select: { likes: true } }
-}
-
-export async function handelTweets(sessionUserId: any, preTweets: Tweet[]) {
-  if (sessionUserId) {
-
-    const tweetsPromise = preTweets.map(tweet => {
-      const userId = sessionUserId
-      const tweetId = tweet.id
-
-      return prisma.like.findUnique({ where: { userId_tweetId: { userId, tweetId } }, select: { tweetId: true } }).then((like) => {
-
-        if (like) {
-          return { ...tweet, liked: true }
-        } else {
-          return { ...tweet, liked: false }
-        }
-      })
-    })
-
-    const tweets = await Promise.all(tweetsPromise).then(results => results)
-
-    return tweets
-
-  } else {
-    return preTweets
-  }
-}
-
-export async function GET(request: Request) {
+export async function GET(request: Request, { params }: { params: { id: string } }) {
   const { searchParams } = new URL(request.url);
 
+  const id = params.id
   const take = searchParams.get("take")
   const lastCursor = searchParams.get("lastCursor")
 
@@ -63,6 +23,9 @@ export async function GET(request: Request) {
       }
     }),
     select: tweetSelect,
+    where: {
+      userId: id
+    },
     orderBy: {
       createdAt: 'desc'
     }
@@ -88,6 +51,7 @@ export async function GET(request: Request) {
     cursor: {
       id: cursor,
     },
+    where: { userId: id },
     select: tweetSelect,
     orderBy: {
       createdAt: 'desc'
@@ -105,4 +69,5 @@ export async function GET(request: Request) {
   };
 
   return NextResponse.json(data)
+
 }

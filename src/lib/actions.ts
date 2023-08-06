@@ -12,11 +12,9 @@ export async function addTweet(formData: FormData) {
   } as Tweet
 
   if (validTweet(formData)) {
-    if (await prisma.tweet.create({
+    return await prisma.tweet.create({
       data: tweet
-    })) {
-      return true;
-    }
+    })
   }
 }
 
@@ -56,5 +54,5 @@ export async function unFollow(sessionUserId: string, profileId: string) {
 }
 
 export async function revalidatePage(path: string) {
-  revalidatePath(path)
+  return revalidatePath(path)
 }

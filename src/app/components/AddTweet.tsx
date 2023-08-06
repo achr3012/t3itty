@@ -1,11 +1,11 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useState } from 'react'
 import { useRef } from 'react'
 import type { User } from "@prisma/client"
 import { addTweet } from '@/lib/actions'
 import Avatar from './Avatar'
-import { useRouter } from 'next/navigation'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 function updateTextareaHeight(textArea: HTMLTextAreaElement) {
   textArea.style.height = 'auto';
@@ -17,13 +17,11 @@ const AddTweet = ({ user }: { user: User }) => {
     return <h1>Please login to add new tweets</h1>
   }
 
-  const router = useRouter();
-
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const [isPending, startTransition] = useTransition();
-
   const [disabled, setDisabled] = useState(true);
+
+  const queryClient = useQueryClient()
 
   const textAreaChangeHandler = () => {
     if (textareaRef.current) {
@@ -36,26 +34,25 @@ const AddTweet = ({ user }: { user: User }) => {
     }
   }
 
+  const { mutate: mutateTweet } = useMutation(addTweet, {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tweets'] })
+      if (textareaRef.current) {
+        textareaRef.current.value = ""
+        updateTextareaHeight(textareaRef.current)
+        setDisabled(true)
+      }
+    }
+  })
+
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
 
-    if (!isPending && !disabled) {
-      formData.append("userId", user.id)
+    if (disabled) return
 
-      startTransition(async () => {
-        if (await addTweet(formData)) {
-          router.refresh()
-          if (textareaRef.current) {
-            textareaRef.current.value = ""
-            updateTextareaHeight(textareaRef.current)
-            setDisabled(true)
-          }
-        } else {
-          alert("semething went wrog maybe your tweet is too BIG")
-        }
-      })
-    }
+    formData.append("userId", user.id)
+    mutateTweet(formData)
   }
 
   return (
