@@ -19,7 +19,7 @@ export const tweetSelect = {
   _count: { select: { likes: true } }
 }
 
-export async function handelTweets(sessionUserId: any, preTweets: Tweet[]) {
+async function handelTweets(sessionUserId: any, preTweets: Tweet[]) {
   if (sessionUserId) {
 
     const tweetsPromise = preTweets.map(tweet => {
