@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "@/lib/AuthOptions";
-import { handelTweets, tweetSelect } from "../../route";
+import { tweetSelect } from "../../route";
+import handelTweets from "@/lib/handelTweets";
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   const { searchParams } = new URL(request.url);

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "@/lib/AuthOptions";
-import { Tweet } from "@prisma/client";
+import handelTweets from "@/lib/handelTweets";
 
 export const tweetSelect = {
   user: {
@@ -17,32 +17,6 @@ export const tweetSelect = {
   content: true,
   createdAt: true,
   _count: { select: { likes: true } }
-}
-
-async function handelTweets(sessionUserId: any, preTweets: Tweet[]) {
-  if (sessionUserId) {
-
-    const tweetsPromise = preTweets.map(tweet => {
-      const userId = sessionUserId
-      const tweetId = tweet.id
-
-      return prisma.like.findUnique({ where: { userId_tweetId: { userId, tweetId } }, select: { tweetId: true } }).then((like) => {
-
-        if (like) {
-          return { ...tweet, liked: true }
-        } else {
-          return { ...tweet, liked: false }
-        }
-      })
-    })
-
-    const tweets = await Promise.all(tweetsPromise).then(results => results)
-
-    return tweets
-
-  } else {
-    return preTweets
-  }
 }
 
 export async function GET(request: Request) {
