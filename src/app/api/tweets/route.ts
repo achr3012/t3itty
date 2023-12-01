@@ -3,21 +3,9 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "@/lib/AuthOptions";
 import handelTweets from "@/lib/handelTweets";
+import { tweetSelect } from "@/lib/prismaTweetSelect";
 
-export const tweetSelect = {
-  user: {
-    select: {
-      id: true,
-      name: true,
-      image: true
-    }
-  },
-  id: true,
-  userId: true,
-  content: true,
-  createdAt: true,
-  _count: { select: { likes: true } }
-}
+
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

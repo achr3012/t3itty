@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { AuthOptions } from "@/lib/AuthOptions";
-import { tweetSelect } from "../../route";
+import { tweetSelect } from "@/lib/prismaTweetSelect";
 import handelTweets from "@/lib/handelTweets";
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
